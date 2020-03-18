@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Book</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<!--    <link rel="stylesheet" type="text/css" media="all"-->
+<!--          href="../../css/gtvg.css" th:href="@{/css/gtvg.css}"/>-->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<div class="mx-auto" style="width: 200px;">
+    <h2>User list</h2>
+</div>
+<br><br>
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>User Name</th>
+            <th>Age</th>
+            <th>Library Member</th>
+            <th>Email</th>
+            <th>Mobile no</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.userName}"></td>
+            <td th:text="${user.age}"></td>
+            <td th:text="${user.active}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.mobileNumber}"></td>
+        </tr>
+    </table>
+</div>
+<!--<p>-->
+<!--    <a href="../home.html" th:href="@{/}">Return to home</a>-->
+<!--</p>-->
+
+</body>
+
+</html>
