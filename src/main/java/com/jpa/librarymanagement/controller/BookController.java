@@ -1,10 +1,14 @@
 package com.jpa.librarymanagement.controller;
 
+import com.jpa.librarymanagement.exception.BookNotFoundException;
 import com.jpa.librarymanagement.model.Book;
+import com.jpa.librarymanagement.model.Rental;
 import com.jpa.librarymanagement.repo.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
@@ -75,6 +79,22 @@ public class BookController {
         if (book == null)
             return null;
         return book;
+    }
+
+    @DeleteMapping(value = "/book")
+    public ResponseEntity deleteBook(@RequestParam(value = "q") int bookId) {
+        Book book = null;
+        try {
+            book = bookRepo.getBookById(bookId);
+            if (book == null) {
+                throw new BookNotFoundException(5);
+            }
+        } catch (BookNotFoundException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Book not Found", ex);
+        }
+        bookRepo.deleteById(bookId);
+        return ResponseEntity.ok().build();
     }
 
 }

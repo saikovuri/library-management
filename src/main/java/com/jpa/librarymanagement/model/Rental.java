@@ -1,5 +1,7 @@
 package com.jpa.librarymanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -11,10 +13,12 @@ public class Rental implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rent_id;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="book_id")
     private Book book;
@@ -33,6 +37,22 @@ public class Rental implements Serializable {
 
     public Rental(){
 
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public Book getBook() {
+        return book;
     }
 
     public int getRent_id() {
@@ -59,5 +79,14 @@ public class Rental implements Serializable {
         this.dueDate = dueDate;
     }
 
-
+    @Override
+    public String toString() {
+        return "Rental{" +
+                "rent_id=" + rent_id +
+                ", user=" + user +
+                ", book=" + book +
+                ", rentedDate=" + rentedDate +
+                ", dueDate=" + dueDate +
+                '}';
+    }
 }

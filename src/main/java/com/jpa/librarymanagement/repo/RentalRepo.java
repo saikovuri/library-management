@@ -14,4 +14,7 @@ public interface RentalRepo extends JpaRepository<Rental,Integer> {
 //            nativeQuery = true)
 //    List<Rental> getRentalsByUser(int user_id);
 
+        @Query("select r from Rental r where r.rent_id= :rentId")
+        Rental getRentalById(int rentId);
+
 }

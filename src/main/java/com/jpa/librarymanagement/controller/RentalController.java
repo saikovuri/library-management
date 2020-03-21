@@ -35,18 +35,17 @@ public class RentalController {
     @Autowired
     Util util;
 
-
     @GetMapping("/rentedBooks")
     List<Rental> findAll() {
         return rentalRepo.findAll();
     }
 
     @GetMapping(value = "/rental/{id}")
-    public Optional<Rental> getUserById(@PathVariable int id) {
-        Optional<Rental> rental = rentalRepo.findById(id);
+    public ResponseEntity<Rental> getUserById(@PathVariable int id) {
+        Rental rental = rentalRepo.getRentalById(id);
         if (rental == null)
             return null;
-        return rental;
+        return new ResponseEntity(rental, HttpStatus.OK);
     }
 
 
@@ -67,18 +66,18 @@ public class RentalController {
     @Transactional
     @DeleteMapping(value = "/rental")
     public ResponseEntity deleteRental(@RequestParam(value = "q") int rentId) {
-        Optional<Rental> rental = null;
+        Rental rental = null;
 
         try {
-            rental = rentalRepo.findById(rentId);
-            if (rental.equals(Optional.empty())) {
+            rental = rentalRepo.getRentalById(rentId);
+            if (rental == null) {
                 throw new RentalNotFoundException(5);
             }
-        } catch (RentalNotFoundException exc) {
+        } catch (RentalNotFoundException ex) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Rental not Found", exc);
+                    HttpStatus.NOT_FOUND, "Rental not Found", ex);
         }
-        bookRepo.updateBookStatusToAvailable(util.getBookIdbyRental(entityManager, rentId), true);
+        bookRepo.updateBookStatusToAvailable(rental.getBook().getBook_id(), true);
         rentalRepo.deleteById(rentId);
         return ResponseEntity.ok().build();
     }

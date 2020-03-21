@@ -1,6 +1,7 @@
 package com.jpa.librarymanagement.repo;
 
 import com.jpa.librarymanagement.model.Book;
+import com.jpa.librarymanagement.model.Rental;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -29,6 +30,10 @@ public interface BookRepo extends JpaRepository<Book, Integer> {
     @Query(value = "SELECT b.is_available from Book b where b.book_id=:book_id",
            nativeQuery = true)
     boolean isAvailable(int book_id);
+
+    @Query("select b from Book b where b.book_id= :bookId")
+    Book getBookById(int bookId);
+
 
 }
 

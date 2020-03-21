@@ -4,13 +4,12 @@ use library_management;
 show tables;
 select * from rental;
 select * from book;
-
 select * from user;
 
 
 
-#update book set is_available= true where book_id =3;
-#ALTER TABLE `rental` AUTO_INCREMENT = 1;
+#update book set is_available= true where book_id =1;
+#ALTER TABLE `book` AUTO_INCREMENT = 1;
 #drop table rental;
 #delete from rental where rent_id=1;
 

@@ -29,7 +29,6 @@ public class User implements Serializable {
     public User(){
 
     }
-
     public User(String userName, int age, boolean isActive, String email, String mobileNumber) {
         this.userName = userName;
         this.age = age;

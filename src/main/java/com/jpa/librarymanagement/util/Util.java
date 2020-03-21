@@ -1,8 +1,6 @@
 package com.jpa.librarymanagement.util;
 
-import com.jpa.librarymanagement.model.BookId;
 import com.jpa.librarymanagement.model.BookList;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -32,17 +30,17 @@ public class Util {
         }
     }
 
-    public int getBookIdbyRental(EntityManager entityManager, int rent_id) {
-        String queryStr = "SELECT r.book_id,r.user_id FROM Rental r WHERE r.rent_id = ?1";
-        try {
-            Query query = entityManager.createNativeQuery(queryStr);
-            query.setParameter(1, rent_id);
-            BookId b = new BookId((Object[]) query.getSingleResult());
-
-            return b.getBook_id();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
+//    public int getBookIdbyRental(EntityManager entityManager, int rent_id) {
+//        String queryStr = "SELECT r.book_id,r.user_id FROM Rental r WHERE r.rent_id = ?1";
+//        try {
+//            Query query = entityManager.createNativeQuery(queryStr);
+//            query.setParameter(1, rent_id);
+//            BookId b = new BookId((Object[]) query.getSingleResult());
+//
+//            return b.getBook_id();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw e;
+//        }
+//    }
 }
