@@ -3,37 +3,78 @@ package com.jpa.librarymanagement.controller;
 import com.jpa.librarymanagement.model.Book;
 import com.jpa.librarymanagement.repo.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 public class BookController {
 
     @Autowired
     BookRepo bookRepo;
 
-//    @GetMapping(value = "/book")
-//    public String getBooks(Model model) {
-//       model.addAttribute("books", bookRepo.findAll());
-//       return "book";
-//    }
+    @GetMapping(value = "/book")
+    public List<Book> getBooks() {
+        List<Book> list = null;
+        list = bookRepo.findAll();
+        if (list.size() == 0 || list == null)
+            return Collections.emptyList();
 
-//    @GetMapping(value = "/book/{id}")
-//    public String getBookById(Model model, @RequestParam(value="id", required=false, defaultValue="1") int id ) {
-//        model.addAttribute("book", bookRepo.findById(id));
-//        return "book";
-//    }
+        return list;
+    }
+
+    @GetMapping(value = "/book/{id}", produces = "application/json")
+    public @ResponseBody
+    Optional<Book> getBookById(@PathVariable int id) {
+
+        Optional<Book> book = bookRepo.findById(id);
+        if (book == null)
+            return null;
+        return book;
+
+    }
 
 
-//    @GetMapping(value = "/book/{id}", produces = "application/json")
-//    public @ResponseBody Optional<Book> getBook(@PathVariable int id) {
-//        return bookRepo.findById(id);
-//    }
-//
+    @PostMapping(value = "/book")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Book insertBook(@RequestBody Book book) {
+        if (book.getBookName() == "" || book.getBookName().equals(null))
+            return null;
+        Book bookCur = new Book(book.getBookName(), book.getAuthorName(), book.getPrice());
+        return bookRepo.save(bookCur);
+    }
+
+    @GetMapping(value = "/availableBooks")
+    public List<Book> getAvailableBooks() {
+        List<Book> availableBooks = bookRepo.getAllAvailableBook();
+        if (availableBooks == null || availableBooks.size() == 0)
+            return null;
+        return availableBooks;
+    }
+
+    @GetMapping(value = "/availableBook")
+    public boolean isBookAvailable(@RequestParam(value = "q") int book_id) {
+        return bookRepo.isAvailable(book_id);
+    }
 
 
+    @GetMapping(value = "/booksByAuthor")
+    public List<Book> searchBooksByAuthor(@RequestParam(value = "q") String author) {
+        List<Book> books = bookRepo.getAllBookByAuthorName(author);
+        if (books == null || books.size() == 0)
+            return null;
+        return books;
+    }
+
+    @GetMapping(value = "/bookByName")
+    public Book searchBooksByName(@RequestParam(value = "q") String book_name) {
+        Book book = bookRepo.getBookByName(book_name);
+        if (book == null)
+            return null;
+        return book;
+    }
 
 }

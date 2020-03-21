@@ -1,27 +1,20 @@
 package com.jpa.librarymanagement;
 
-import com.jpa.librarymanagement.model.User;
-import com.jpa.librarymanagement.repo.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
+import com.jpa.librarymanagement.model.BookList;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @SpringBootApplication
 public class LibraryManagementApplication {
-		//implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LibraryManagementApplication.class, args);
 	}
 
-//@Autowired
-//UserRepo userRepo;
-//
-//	@Override
-//	public void run(String... args) throws Exception {
-//		userRepo.save(new User("Sai", 28, true, "saikovouri@gmail.com", "8602459741"));
-//	}
 }

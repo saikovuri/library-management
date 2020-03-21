@@ -1,11 +1,11 @@
 package com.jpa.librarymanagement.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class User {
     @OneToMany(	mappedBy="user",
             cascade= {CascadeType.ALL},
             fetch=FetchType.LAZY)
-    private Set<Rental> reservedBooks;
+    private List<Rental> reservedBooks;
 
     public User(){
 
@@ -86,7 +86,6 @@ public class User {
         this.mobileNumber = mobileNumber;
     }
 
-
     @Override
     public String toString() {
         return "User{" +
@@ -97,4 +96,6 @@ public class User {
                 ", mobileNumber='" + mobileNumber + '\'' +
                 '}';
     }
+
 }
+

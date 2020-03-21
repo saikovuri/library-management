@@ -1,9 +1,13 @@
 package com.jpa.librarymanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
+
 
 @Entity
-public class Book {
+public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int book_id;
@@ -24,8 +28,8 @@ public class Book {
         this.authorName = authorName;
         this.price = price;
         this.isAvailable=true;
-    }
 
+    }
 
     public boolean isAvailable() {
         return isAvailable;
